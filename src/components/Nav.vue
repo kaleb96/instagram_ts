@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import Container from '@/components/Container.vue';
-// import AuthModal from '@/components/AuthModal.vue';
+import AuthModal from '@/components/AuthModal.vue';
 
 import { ref } from 'vue';
 
 //states
 const visible = ref<boolean>(false);
-
+const isLogin = ref<boolean>(false);
 
 //functions
 const goProfile = (): void => {
@@ -31,21 +31,19 @@ const handleOk = (e: MouseEvent) => {
                 <div class="right-content">
                     <a-input-search
                         placeholder="input search text"
-                        enter-button="Search"
+                        enter-button="Search..."
                         size="large"
                     />
                 </div>
-
                 <div class="left-content">
-                    <div class="pre-auth-container">
-                        <a-button type="primary" shape="round" @click="showModal">openModal</a-button>
-                        <a-modal v-model:visible="visible" title="openModal" @ok="handleOk"></a-modal>
+                    <div class="auth-container" v-if="!isLogin">
+                        <AuthModal :isLogin="true" />
+                        <AuthModal :isLogin="false" />
                     </div>
-                    <div class="post-auth-container">
+                    <div class="auth-container" v-if="isLogin">
                         <a-button type="primary" shape="round">Profile</a-button>
                         <a-button type="primary" shape="round">Logout</a-button>
                     </div>
-      
                 </div>
             </div>
         </Container>
@@ -67,5 +65,18 @@ const handleOk = (e: MouseEvent) => {
 .left-content {
     display: flex;
     align-items: center;
+}
+
+.auth-container {
+    display: flex;
+    align-items: center;
+}
+
+.right-content a {
+    margin-right: 30px;
+}
+
+.auth-content button {
+    margin-left: 10px;
 }
 </style>
